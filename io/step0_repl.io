@@ -1,14 +1,14 @@
-read   := method(str, str)
-eval   := method(str, str)
-print_ := method(str, str)
-rep    := method(str,
-  print_(eval(read(str)))
+READ   := method(str, str)
+EVAL   := method(str, str)
+PRINT_ := method(str, str)
+REP    := method(str,
+  PRINT_(EVAL(READ(str)))
 )
 
 while((input := ReadLine readLine("user> ")) != nil,
   if (input size == 0,
     "" print,
-    rep(input) println
+    REP(input) println
     ReadLine addHistory(input)
   )
 )
