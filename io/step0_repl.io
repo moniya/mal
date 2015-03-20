@@ -6,7 +6,7 @@ REP    := method(str,
 )
 
 while((input := ReadLine readLine("user> ")) != nil,
-  if (input size == 0,
+  if (input isEmpty,
     "" print,
     REP(input) println
     ReadLine addHistory(input)
