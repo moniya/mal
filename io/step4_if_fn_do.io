@@ -27,7 +27,7 @@ EVAL   := method(ast, env,
                 )
                 EVAL(a2, letEnv),
                 if (a0 == "do",
-                    ast rest map(e, EVAL(e, env)) last,
+                    eval_ast(ast rest, env) last,
                     if (a0 == "if",
                         if(EVAL(a1, env), EVAL(a2, env), EVAL(a3, env)),
                         if (a0 == "fn*",

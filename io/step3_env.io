@@ -46,7 +46,8 @@ while ((input := ReadLine readLine("user> ")) != nil,
       ReadLine addHistory(input)))
 
   e catch(EmptyTokenException, "" print)
-  e catch(SyntaxError, e showStack))
+  e catch(SyntaxError, e showStack)
+  e catch(UndefinedVariableException, e showStack))
 
 "" println
 
