@@ -3,7 +3,7 @@ Importer FileImporter importPath( "reader.io")
 
 READ   := method(str, readStr(str))
 EVAL   := method(ast, ast)
-PRINT_ := method(exp, prStr(exp))
+PRINT_ := method(exp, prStr(exp, true))
 REP    := method(str,
   PRINT_(EVAL(READ(str)))
 )

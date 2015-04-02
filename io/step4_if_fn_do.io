@@ -36,7 +36,7 @@ EVAL   := method(ast, env,
                             (el first) call(el rest)))))),
     eval_ast(ast, env)))
 
-PRINT_ := method(exp, prStr(exp))
+PRINT_ := method(exp, prStr(exp, true))
 
 
 repl_env := Env clone with(nil, list(), list())

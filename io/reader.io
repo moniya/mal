@@ -17,7 +17,7 @@ readStr := method(str,
   rdr := Reader clone
   if ((tks := tokenizer(str)) isEmpty,
     EmptyTokenException raise,
-    rdr tokens := tokenizer(str)
+    rdr tokens := tks
     readForm(rdr)))
 
 readForm := method(rdr,
@@ -39,10 +39,12 @@ readList := method(rdr,
   rdr next
   ast)
 
+parseStr := method(str, str exSlice(1, -1) asMutable replaceSeq("\\\"", "\""))
+
 readAtom := method(rdr,
   token := rdr next
   if (token hasMatchOfRegex("^-?[0-9]+$"), token asNumber,
-  if (token hasMatchOfRegex("^\".*\""), token asMutable,
+  if (token hasMatchOfRegex("^\".*\""), parseStr(token) asMutable,
   if (token == "true", true,
   if (token == "false", false,
   if (token == "nil", nil,

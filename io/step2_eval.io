@@ -21,7 +21,7 @@ EVAL   := method(ast, env,
     eval_ast(ast, env))
 )
 
-PRINT_ := method(exp, prStr(exp))
+PRINT_ := method(exp, prStr(exp, true))
 
 REP    := method(str,
   PRINT_(EVAL(READ(str), repl_env))

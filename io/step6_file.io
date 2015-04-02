@@ -34,8 +34,7 @@ EVAL   := method(ast, env,
                         if (a0 == "if",
                             if (EVAL(a1, env), ast = a2, ast = a3),
                             if (a0 == "fn*",
-                                fnct := Function clone with (a2, env, a1)
-                                return fnct,
+                                return Function clone with (a2, env, a1),
                                 el := eval_ast(ast, env)
                                 f := el first
                                 if (f type == "Function",
@@ -55,16 +54,20 @@ Function with := method(_ast, _env, _params,
     env ::= _env
     self)
 Function gen_env := method(args,
-    return Env clone with(env, params, args)
-)
+    return Env clone with(env, params, args))
 
 
 PRINT_ := method(exp, prStr(exp, true))
 
-
 repl_env := Env clone with(nil, list(), list())
 ns foreach(k, v, repl_env set(k, v))
 REP := method(str, PRINT_(EVAL(READ(str), repl_env)))
+
+repl_env set("eval", block(ast, EVAL(ast first, repl_env)))
+lf := "(def! load-file (fn* (f) (eval (read-string (str \"(do \" (slurp f) \")\")))))"
+
+EVAL(READ(lf), repl_env)
+
 
 while ((input := ReadLine readLine("user> ")) != nil,
   e := try (
