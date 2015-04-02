@@ -22,9 +22,13 @@ readStr := method(str,
 
 readForm := method(rdr,
   token := rdr peek
+  if (token == "'",  rdr next; list("quote", readForm(rdr)),
+  if (token == "`",  rdr next; list("quasiquote", readForm(rdr)),
+  if (token == "~",  rdr next; list("unquote", readForm(rdr)),
+  if (token == "~@", rdr next; list("splice-unquote", readForm(rdr)),
   if (token == "(", readList(rdr),
   if (token == ")", SyntaxError raise("unexpected ')'"),
-  readAtom(rdr))))
+  readAtom(rdr))))))))
 
 readList := method(rdr,
   ast := list()
@@ -44,7 +48,10 @@ parseStr := method(str, str exSlice(1, -1) asMutable replaceSeq("\\\"", "\""))
 readAtom := method(rdr,
   token := rdr next
   if (token hasMatchOfRegex("^-?[0-9]+$"), token asNumber,
-  if (token hasMatchOfRegex("^\".*\""), parseStr(token) asMutable,
+  if (token hasMatchOfRegex("^\".*\""),
+        t := parseStr(token)
+        t type ::= "String"
+        t,
   if (token == "true", true,
   if (token == "false", false,
   if (token == "nil", nil,
